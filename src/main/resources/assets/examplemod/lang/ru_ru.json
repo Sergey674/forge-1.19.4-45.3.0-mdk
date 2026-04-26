@@ -1,0 +1,8 @@
+{
+  "language": "Russian",
+  "language.region": "Russia",
+  "language.code": "ru_ru",
+
+  "item.examplemod.item1": "Предмет1",
+  "block.examplemod.block1": "Блок1"
+}
