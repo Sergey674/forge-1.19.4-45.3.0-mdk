@@ -4,6 +4,10 @@ import com.example.examplemod.Blocks.BlocksTest;
 import com.example.examplemod.Blocks.BlocksVanilla;
 import com.example.examplemod.Items.ItemsTest;
 import com.example.examplemod.Items.ItemsVanilla;
+import com.example.examplemod.Scripts.ModCreativeTabs;
+import com.example.examplemod.Scripts.ReciptsScripts.RecipeRemover;
+import com.example.examplemod.Scripts.ReciptsScripts.ResourceScripts.HolderResource;
+import com.example.examplemod.Scripts.ReciptsScripts.ResourceScripts.HolderResourceList;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -59,14 +63,15 @@ public class ExampleMod
         ItemsVanilla.ITEMS.register(modEventBus);
         BlocksVanilla.BLOCKS.register(modEventBus);
         
-
 //        // Register the Deferred Register to the mod event bus so blocks get registered
  //        BLOCKS.register(modEventBus);
 //        // Register the Deferred Register to the mod event bus so items get registered
 //        ITEMS.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in
+        RecipeRemover recipeRemover = new RecipeRemover(new HolderResourceList());
+        
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(recipeRemover);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.example.examplemod.Scripts.ReciptsScripts;
 
 
 import net.minecraft.resources.ResourceLocation;
@@ -13,45 +13,47 @@ import net.minecraftforge.fml.common.Mod;
 import java.lang.reflect.Field;
 import java.util.*;
 
-@Mod.EventBusSubscriber(modid = "examplemod")
-public class RecipeModification {
+import com.example.examplemod.Scripts.ReciptsScripts.ResourceScripts.HolderResource;
 
-    private static List<Recipe<?>> preparedRecipes = null;
+@Mod.EventBusSubscriber(modid = "examplemod")
+public class RecipeRemover {
+
+    //private List<Recipe<?>> preparedRecipes = null;
+    private List<ResourceLocation> removeResources;
+
+
+    public RecipeRemover(HolderResource holderResource){
+        removeResources = holderResource.getResource();
+    }
 
      //Слушатель события для модификации рецептов при запуске сервера
     @SubscribeEvent
-    public static void onServerStarted(ServerStartingEvent event) {
+    public void onServerStarted(ServerStartingEvent event) {
         RecipeManager recipeManager = event.getServer().getRecipeManager();
-        preparedRecipes = new ArrayList<>(recipeManager.getRecipes());
-
-        // Указываем идентификатор рецепта, который хотим удалить
-        ResourceLocation raw_iron1ToRemove = new ResourceLocation("minecraft", "iron_ingot_from_smelting_raw_iron"); // Пример: палки
-        ResourceLocation raw_iron2ToRemove = new ResourceLocation("minecraft", "iron_ingot_from_blasting_raw_iron");
-        ResourceLocation stone_pickaxeToRemove = new ResourceLocation("minecraft", "stone_pickaxe");
-
+        List<Recipe<?>> preparedRecipes = new ArrayList<>(recipeManager.getRecipes());
+        
         // Удаление рецептов
-        removeRecipe(raw_iron1ToRemove);
-        removeRecipe(raw_iron2ToRemove);
-        removeRecipe(stone_pickaxeToRemove);
+        removesRecipes(preparedRecipes);
 
-        //Обновление рецептов stone_pickaxe
-        updateRecipe(recipeManager);
-
+        //Обновление рецептов
+        updateRecipe(recipeManager, preparedRecipes);
         printListRecipes(recipeManager);
     }
 
-    private static void removeRecipe(ResourceLocation recipeId) {
-        // Удаляем только рецепт переплавки для предмета "stick"
-        preparedRecipes.removeIf(recipe -> recipe.getId().equals(recipeId) );
+    private void removesRecipes(List<Recipe<?>> preparedRecipes) {
+        for (ResourceLocation recipeId : removeResources) {
+            preparedRecipes.removeIf(recipe -> recipe.getId().equals(recipeId) );
+        }
+        
     }
 
-    private static void updateRecipe(RecipeManager recipeManager)
+    private void updateRecipe(RecipeManager recipeManager, List<Recipe<?>> preparedRecipes)
     {
         if (preparedRecipes != null)
             recipeManager.replaceRecipes(preparedRecipes);
     }
 
-    private static void printRecipeInfo(Recipe<?> recipe) {
+    private void printRecipeInfo(Recipe<?> recipe) {
         ResourceLocation recipeId = recipe.getId();
         String recipeType = recipe.getType().toString(); // Получаем тип рецепта
 
@@ -70,7 +72,7 @@ public class RecipeModification {
 
     }
 
-    private static  void printListRecipes(RecipeManager recipeManager)
+    private void printListRecipes(RecipeManager recipeManager)
     {
         ResourceLocation recipeToPrint = new ResourceLocation("minecraft", "stone_pickaxe");
         Recipe<?> recipeTMP = null;
