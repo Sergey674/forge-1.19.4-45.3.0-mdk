@@ -9,11 +9,12 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.lang.reflect.Field;
 import java.util.*;
 
-import com.example.examplemod.Scripts.ReciptsScripts.ResourceScripts.HolderResource;
+import com.example.examplemod.Scripts.Services.ISourceResources;
 
 @Mod.EventBusSubscriber(modid = "examplemod")
 public class RecipeRemover {
@@ -22,7 +23,7 @@ public class RecipeRemover {
     private List<ResourceLocation> removeResources;
 
 
-    public RecipeRemover(HolderResource holderResource){
+    public RecipeRemover(ISourceResources holderResource){
         removeResources = holderResource.getResource();
     }
 
@@ -31,7 +32,7 @@ public class RecipeRemover {
     public void onServerStarted(ServerStartingEvent event) {
         RecipeManager recipeManager = event.getServer().getRecipeManager();
         List<Recipe<?>> preparedRecipes = new ArrayList<>(recipeManager.getRecipes());
-        
+
         // Удаление рецептов
         removesRecipes(preparedRecipes);
 

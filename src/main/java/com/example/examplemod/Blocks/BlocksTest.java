@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class BlocksTest {
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ExampleMod.MODID);
+    //public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ExampleMod.MODID);
 
-    public static final RegistryObject<Block> BLOCK1 = BLOCKS.register("block1", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(8, 1200)));
+    //public static RegistryObject<Block> BLOCK1 = BLOCKS.register("block1", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(8, 1200)));
 }

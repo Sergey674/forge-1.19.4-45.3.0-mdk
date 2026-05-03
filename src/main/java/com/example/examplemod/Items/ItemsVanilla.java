@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ItemsVanilla {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ExampleMod.MODID);
+    //public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ExampleMod.MODID);
 
-    public static final RegistryObject<Item> STONE_BRICKS = ITEMS.register("stone_bricks", () -> new BlockItem(BlocksVanilla.STONE_BRICKS.get(), new Item.Properties()));
+    //public static final RegistryObject<Item> STONE_BRICKS = ITEMS.register("stone_bricks", () -> new BlockItem(BlocksVanilla.STONE_BRICKS.get(), new Item.Properties()));
 }
