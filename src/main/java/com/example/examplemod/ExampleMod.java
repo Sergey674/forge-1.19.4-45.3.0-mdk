@@ -20,7 +20,10 @@ import com.example.examplemod.Scripts.Services.ISourceFactory;
 import com.example.examplemod.Scripts.Services.ISourceResources;
 import com.mojang.logging.LogUtils;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -37,6 +40,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -72,16 +77,16 @@ public class ExampleMod
         //ItemsVanilla.ITEMS.register(modEventBus);
         //BlocksVanilla.BLOCKS.register(modEventBus);
 
-        DataBlocksList dataBlocksList = new DataBlocksList();
+        //DataBlocksList dataBlocksList = new DataBlocksList();
         DataBlockListVanilla dataBlocksListVanilla = new DataBlockListVanilla();
 
-        blocksModifier = new BlocksModifierDeferred(modEventBus);
+        //blocksModifier = new BlocksModifierDeferred(modEventBus);
         blocksModifierVanila = new BlocksModifierDeferred(modEventBus);
         itemsModiferDeferred = new ItemsModiferDeferred(modEventBus);
 
-        holderBlocks = dataBlocksList.getHolderBlocks();
+        //holderBlocks = dataBlocksList.getHolderBlocks();
         holderBlocksVanilla = dataBlocksListVanilla.getHolderBlocks();
-        holderItemsFactory = new HolderItemsFactory(blocksModifier);
+        holderItemsFactory = new HolderItemsFactory(blocksModifierVanila);
 
         registeredBlocks();
         
@@ -118,24 +123,22 @@ public class ExampleMod
         String id_mincraft = "minecraft";
         String id_mod = ExampleMod.MODID;
 
-        blocksModifier.register(holderBlocks, id_mod);
+        //blocksModifier.register(holderBlocks, id_mod);
         blocksModifierVanila.register(holderBlocksVanilla, id_mincraft);
-        
         itemsModiferDeferred.register(holderItemsFactory, id_mod);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        //MinecraftServer server = event.getServer();
-        // Some common setup code
-//        LOGGER.info("HELLO FROM COMMON SETUP");
-//
-//        if (Config.logDirtBlock)
-//            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-//
-//        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-//
-//        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        // event.enqueueWork(() -> {
+        //     // Получаем новый объект кирпича из реестра
+        //     Block newBricks = ForgeRegistries.BLOCKS.getValue(
+        //         new ResourceLocation("minecraft", "bricks"));
+            
+        //     // Заменяем иконку
+        //     CreativeModeTabs.BUILDING_BLOCKS.iconItemStack = 
+        //         new ItemStack(newBricks);
+        // });
     }
 
 

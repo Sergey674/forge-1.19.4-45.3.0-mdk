@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_stone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["minecraft:stone"]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": ["examplemod:stone_pickaxe_"]
+  }
+}
+

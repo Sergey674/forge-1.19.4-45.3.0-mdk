@@ -1,14 +1,14 @@
 {
   "feature": "minecraft:ore_iron_small",
   "placement": [
-    { "type": "minecraft:count", "count": 10 },
+    { "type": "minecraft:count", "count": 9 },
     { "type": "minecraft:in_square" },
     {
       "type": "minecraft:height_range",
       "height": {
         "type": "minecraft:trapezoid",
-        "min_inclusive": { "absolute": -32 },
-        "max_inclusive": { "absolute": 32 },
+        "min_inclusive": { "absolute": -24 },
+        "max_inclusive": { "absolute": 40 },
         "plateau": 0
       }
     },

@@ -2,10 +2,13 @@ package com.example.examplemod.Scripts.ModSystems.HardnessScripts;
 
 import org.stringtemplate.v4.compiler.CodeGenerator.primary_return;
 
+import com.example.examplemod.Items.ItemMod;
 import com.example.examplemod.Scripts.Services.ISourceHardnessRank;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,12 +34,13 @@ public class StrengthHandler {
         BlockState state = event.getState();
         ItemStack heldItem = player.getMainHandItem();
 
-        // Проверяем подходит ли инструмент по типу
-        boolean correctType = heldItem.isCorrectToolForDrops(state);
+        boolean correctType = ! heldItem.isEmpty() && 
+                           isCorrectToolType(heldItem, state);
 
-        int toolRank = correctType 
+        // Если неправильный тип — ранг как у руки
+        int toolRank = correctType
             ? sourceHardnessRank.getToolRank(heldItem.getItem())
-            : 2; // не подходит по типу → ранг как у руки
+            : ItemMod.getOfDefault().getHardnessRank(); // ранг руки
 
         int blockRank = sourceHardnessRank.getBlockRank(state.getBlock());
 
@@ -64,8 +68,23 @@ public class StrengthHandler {
 
         int toolRank = sourceHardnessRank.getToolRank(heldItem.getItem());
         int blockRank = sourceHardnessRank.getBlockRank(state.getBlock());
-
         int diff = blockRank - toolRank + config.SHIFT;
+
+        int toSpend = DamageToTool(event, player, state, heldItem, diff);
+        float foodLast = WasteofFood(event, player, state, heldItem, diff);
+
+        player.sendSystemMessage(Component.literal(
+        String.format("BlockRank: %d | ToolRank: %d | diff: %d | multiplier: %.2f | toSpend: %d | foodLast: %.2f",
+            blockRank, toolRank, diff, lastMultiplier, toSpend, foodLast)
+        ));
+    }
+
+    private int DamageToTool(BlockEvent.BreakEvent event, ServerPlayer player, BlockState state, ItemStack heldItem, int diff){
+        boolean correctType = isCorrectToolType(heldItem, state);
+        if (!correctType) return 0;
+        if (heldItem.isEmpty()) return 0;
+        if (diff <= 0) return 0;
+        
         float additionalDamage = diff * config.DURABILITY_COST;
 
         // Гарантированная часть
@@ -77,19 +96,34 @@ public class StrengthHandler {
 
         int toSpend = guaranteed + random;
 
-        player.sendSystemMessage(Component.literal(
-        String.format("BlockRank: %d | ToolRank: %d | diff: %d | multiplier: %.2f | toSpend: %d",
-            blockRank, toolRank, diff, lastMultiplier, toSpend)
-        ));
-
-        boolean correctType = heldItem.isCorrectToolForDrops(state);
-        if (!correctType) return;
-
-        if (diff <= 0) return;
-
         if (toSpend > 0) {
             heldItem.hurtAndBreak(toSpend, player,
                 p -> p.broadcastBreakEvent(player.getUsedItemHand()));
         }
+
+        return toSpend;
+    }
+
+    private float WasteofFood(BlockEvent.BreakEvent event, ServerPlayer player, BlockState state, ItemStack heldItem, int diff) {
+        int koef = diff <= 0 ? 1 : diff + 1;
+
+        // Чем выше разница рангов — тем больше тратится еды
+        float exhaustion = config.EXHAUSTION_PER_BREAK * koef;
+        player.getFoodData().addExhaustion(exhaustion);
+
+        return exhaustion;
+    }
+
+    // Проверка типа инструмента без проверки тира
+    private boolean isCorrectToolType(ItemStack tool, BlockState state) {
+        if (state.is(BlockTags.MINEABLE_WITH_PICKAXE) && 
+            tool.is(ItemTags.PICKAXES)) return true;
+        if (state.is(BlockTags.MINEABLE_WITH_AXE) && 
+            tool.is(ItemTags.AXES)) return true;
+        if (state.is(BlockTags.MINEABLE_WITH_SHOVEL) && 
+            tool.is(ItemTags.SHOVELS)) return true;
+        if (state.is(BlockTags.MINEABLE_WITH_HOE) && 
+            tool.is(ItemTags.HOES)) return true;
+        return false;
     }
 }

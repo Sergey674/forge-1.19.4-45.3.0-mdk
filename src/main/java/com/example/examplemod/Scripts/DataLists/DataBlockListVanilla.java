@@ -246,7 +246,7 @@ public class DataBlockListVanilla {
             new ResourceLocation("minecraft", "netherite_block"),
                 properties -> new Block(properties),
                 properties -> properties
-                    .requiresCorrectToolForDrops().strength(120.0F, 1200.0F)
+                    .requiresCorrectToolForDrops().strength(1.0F, 1200.0F)
         );
         
         return holderBlocks;

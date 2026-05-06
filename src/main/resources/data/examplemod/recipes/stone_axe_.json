@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "minecraft:stone"
+    },
+    "Y": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "XX",
+    "XY",
+    " Y"
+  ],
+  "result": {
+    "item": "minecraft:stone_axe"
+  },
+  "show_notification": true
+}

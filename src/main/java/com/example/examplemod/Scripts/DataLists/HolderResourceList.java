@@ -11,7 +11,11 @@ public class HolderResourceList implements ISourceResources {
         List<ResourceLocation> resources = List.of(
             new ResourceLocation("minecraft", "iron_ingot_from_smelting_raw_iron"),
             new ResourceLocation("minecraft", "iron_ingot_from_blasting_raw_iron"),
-            new ResourceLocation("minecraft", "stone_pickaxe")
+            new ResourceLocation("minecraft", "stone_pickaxe"),
+            new ResourceLocation("minecraft", "stone_axe"),
+            new ResourceLocation("minecraft", "stone_hoe"),
+            new ResourceLocation("minecraft", "stone_shovel"),
+            new ResourceLocation("minecraft", "stone_sword")
         );
 
         return resources;

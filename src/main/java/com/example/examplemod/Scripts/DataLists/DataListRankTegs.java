@@ -22,22 +22,23 @@ public class DataListRankTegs {
             .registryOrThrow(Registries.BLOCK);
 
         // Слой 1 — самые широкие категории по типу инструмента
+        registerByTag(registry, BlockTags.MINEABLE_WITH_HOE, 1);
+        //registerByTag(registry, BlockTags.MINEABLE_WITH_SWORD, 1);
         registerByTag(registry, BlockTags.MINEABLE_WITH_SHOVEL, 2);
         registerByTag(registry, BlockTags.MINEABLE_WITH_AXE, 3);
         registerByTag(registry, BlockTags.MINEABLE_WITH_PICKAXE, 4);
 
         // Слой 3 — требования к тиру инструмента (самые конкретные)
-        registerByTag(registry, BlockTags.NEEDS_STONE_TOOL, 4);
-        registerByTag(registry, BlockTags.NEEDS_IRON_TOOL, 5);
-        registerByTag(registry, BlockTags.NEEDS_DIAMOND_TOOL, 6);
-
+        registerByTag(registry, BlockTags.NEEDS_STONE_TOOL, 5);
+        registerByTag(registry, BlockTags.NEEDS_IRON_TOOL, 6);
+        registerByTag(registry, BlockTags.NEEDS_DIAMOND_TOOL, 7);
 
         registerByTag(registry, BlockTags.WOOL, 1);
         registerByTag(registry, BlockTags.LEAVES, 1);
-        registerByTag(registry, BlockTags.DIRT, 2);
-        registerByTag(registry, BlockTags.LOGS, 3);
-        registerByTag(registry, BlockTags.STONE_ORE_REPLACEABLES, 4);
-        registerByTag(registry, BlockTags.DEEPSLATE_ORE_REPLACEABLES, 5);
+        //registerByTag(registry, BlockTags.DIRT, 2);
+        //registerByTag(registry, BlockTags.LOGS, 3);
+        //registerByTag(registry, BlockTags.STONE_ORE_REPLACEABLES, 4);
+        //registerByTag(registry, BlockTags.DEEPSLATE_ORE_REPLACEABLES, 5);
         // и так далее
     }
 
