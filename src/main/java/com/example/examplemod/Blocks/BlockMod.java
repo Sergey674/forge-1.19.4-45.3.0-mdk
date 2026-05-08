@@ -22,6 +22,6 @@ public class BlockMod {
     }
 
     public static BlockMod getOfDefault() {
-        return new BlockMod(0);
+        return new BlockMod(1);
     }
 }

@@ -26,6 +26,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,6 +41,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import org.slf4j.Logger;
@@ -169,6 +171,28 @@ public class ExampleMod
 
         dataBlocks.register();
         dataItems.register();
+
+            Block block = ForgeRegistries.BLOCKS.getValue(
+        new ResourceLocation("minecraft", "bricks"));
+    
+        if (block != null) {
+            // Безопасная рефлексия через Forge
+            ObfuscationReflectionHelper.setPrivateValue(
+                BlockBehaviour.class,
+                block,
+                6.0F,
+                "explosionResistance"  // имя поля в Mojang mappings
+            );
+            
+            for (BlockState state : block.getStateDefinition().getPossibleStates()) {
+                ObfuscationReflectionHelper.setPrivateValue(
+                    BlockBehaviour.BlockStateBase.class,
+                    state,
+                    50.0F,
+                    "destroySpeed"
+                );
+            }
+        }
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

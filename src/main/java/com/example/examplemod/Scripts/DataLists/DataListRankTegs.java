@@ -33,9 +33,16 @@ public class DataListRankTegs {
         registerByTag(registry, BlockTags.NEEDS_IRON_TOOL, 6);
         registerByTag(registry, BlockTags.NEEDS_DIAMOND_TOOL, 7);
 
+        registerByTag(registry, BlockTags.REPLACEABLE_PLANTS, 1);
+        registerByTag(registry, BlockTags.SAPLINGS, 1);
+        registerByTag(registry, BlockTags.WALL_POST_OVERRIDE, 1);
+        registerByTag(registry, BlockTags.WOODEN_PRESSURE_PLATES, 2);
+        registerByTag(registry, BlockTags.FLOWERS, 1);
         registerByTag(registry, BlockTags.WOOL, 1);
         registerByTag(registry, BlockTags.LEAVES, 1);
-        //registerByTag(registry, BlockTags.DIRT, 2);
+
+        //registerByTag(registry, BlockTags.DARK_OAK_LOGS, 4);
+        //registerByTag(registry, BlockTags.DIRT, 2); kelp
         //registerByTag(registry, BlockTags.LOGS, 3);
         //registerByTag(registry, BlockTags.STONE_ORE_REPLACEABLES, 4);
         //registerByTag(registry, BlockTags.DEEPSLATE_ORE_REPLACEABLES, 5);
